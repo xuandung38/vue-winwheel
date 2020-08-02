@@ -1,7 +1,6 @@
 <template>
 		<section class="vue-winwheel">
 			<div class="mobile-container">
-				<h1>Vue-Winwheel</h1>
 				<div class="wheel-wrapper">
 					<div class="canvas-wrapper">
 						<canvas id="canvas" width="310" height="310">
@@ -93,7 +92,8 @@ export default {
         textFontSize: 14,
         outterRadius: 410,
         innerRadius: 25,
-        lineWidth: 8,
+		lineWidth: 8,
+		drawMode: 'image',
         animation: {
           type: 'spinOngoing',
           duration: 0.5
@@ -123,7 +123,18 @@ export default {
             callbackFinished: this.onFinishSpin
           }
         })
-
+ 			// Create new image object in memory.
+            let loadedImg = new Image();
+ 
+            // Create callback to execute once the image has finished loading.
+            loadedImg.onload = function()
+            {
+                  this.theWheel.wheelImage = loadedImg;    // Make wheelImage equal the loaded image object.
+                  this.theWheel.draw();                    // Also call draw function to render the wheel.
+            }
+ 
+            // Set the image source, once complete this will trigger the onLoad callback (above).
+            loadedImg.src = "https://vuarobux.app/images/wheel/ff_wheel.png";
         // example input prize number get from Backend
         // Important thing is to set the stopAngle of the animation before stating the spin.
 
